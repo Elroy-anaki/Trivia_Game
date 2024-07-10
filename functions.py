@@ -35,7 +35,7 @@ def get_from_json_file(file_path: str) -> list:
     lst = []
     for i in data["questions"]:
         q = Question(
-            question=i["question"],
+            text=i["question"],
             answers=i["answers"],
             correct_answer=i["correct_answer"],
             category=i["category"],
@@ -44,53 +44,6 @@ def get_from_json_file(file_path: str) -> list:
             )
         lst.append(q)
     return lst
-
-
-def get_random_questions(lst) -> Question:
-    """
-    Returns a list of randomly selected questions from the question bank.
-    
-    Args:
-        list_of_questions (int): The list of questions the function choose from.
-        
-    Returns:
-        Question: A Question object.
-    """
-    
-    return random.choice(lst)
-
-
-def is_valid_input(answer_of_user: str) -> tuple[bool, str]:
-    """Checks if user's input is valid (only 1 digit between 1 - 4)
-
-    Args:
-        answer_of_user (str): The user's answre
-
-    Returns:
-        tuple[bool, str]: Tuple of bool object and message
-    """
-    if len(answer_of_user) > 1:
-        return False, "Only 1 digit",
-    elif answer_of_user > "4" or answer_of_user == "0":
-        return False, "Only between 1 - 4"
-    return True, ""
-    
-    
-def proper_answer(answer_of_user: str) -> str:
-    """Forces the user to choose proper answer (only 1 digit between 1 - 4)
-
-    Args:
-        answer_of_user (str): The user's answre
-
-    Returns:
-        str: The proper user's answre
-    """
-    valid, message = is_valid_input(answer_of_user)
-    while not valid:
-        print(f"{message}, Try again")
-        answer_of_user = input("Enter your answer: ")
-        valid, message = is_valid_input(answer_of_user)
-    return answer_of_user
 
 
 def get_categories(questions_list: list[object]) -> set[str]:
@@ -106,41 +59,6 @@ def get_categories(questions_list: list[object]) -> set[str]:
     for q in questions_list:
         categories.append(q.category)
     return set(categories)
-    
-
-def proper_user_choose(user_choose: str, options: list[str]) -> str:
-    """Checks if the user choose exist in the options
-
-    Args:
-        user_choose (str): string (category or difficulty level)
-        options (list[str]): list of options to choose from
-
-    Returns:
-        str: The proper user's choose 
-    """
-    while user_choose not in options:
-        user_choose = input(f"Invalid choose, choose only from these options {options}: ")
-        
-    return user_choose
-
-
-def user_choice(QUESTIONS: list[object], DIFFICULTY_LEVELS: list[str]) -> object:
-    """Returns a random question during the game by user's choice
-
-    Args:
-        QUESTIONS (list[object]): Questions' list
-        DIFFICULTY_LEVELS (list[str]): Difficulty levels' list
-
-    Returns:
-        object: A random question
-    """
-    categories = get_categories(QUESTIONS)
-    print(f"Available categories: {categories}")
-    user_category = proper_user_choose(input("Choose category: "), categories)
-    user_difficulty = proper_user_choose(input("Choose difficulty level: "), DIFFICULTY_LEVELS)
-    corrent_list = filter_list(user_category, user_difficulty, QUESTIONS)
-    selected_question = get_random_questions(corrent_list)
-    return selected_question
 
 
 def filter_list(category: str, difficulty: str, questions: list[object]) -> list[object]:
@@ -163,15 +81,53 @@ def filter_list(category: str, difficulty: str, questions: list[object]) -> list
     return filtered_list
 
 
-def fix_player_index(PLAYERS: list[object], player_index: int) -> None:
-    """Fixes the players' index
+def get_random_question(lst) -> Question:
+    """
+    Returns a list of randomly selected questions from the question bank.
+    
+    Args:
+        list_of_questions (int): The list of questions the function choose from.
+        
+    Returns:
+        Question: A Question object.
+    """
+    
+    return random.choice(lst)
+    
+
+def valid_input(user_choose: str, options: list[str]) -> str:
+    """Checks if the user choose exist in the options
 
     Args:
-        PLAYERS (list[object]): Players' list
-        player_index (int): The player index
+        user_choose (str): string (category or difficulty level)
+        options (list[str]): list of options to choose from
+
+    Returns:
+        str: The proper user's choose 
     """
-    if player_index == len(PLAYERS):
-        player_index = 0
+    while user_choose not in options:
+        user_choose = input(f"Invalid choose, choose only from these options {options}:\n").strip().title()
+        
+    return user_choose
+
+
+def select_filters(QUESTIONS: list[object], DIFFICULTY_LEVELS: list[str]) -> object:
+    """Returns a random question during the game by user's choice
+
+    Args:
+        QUESTIONS (list[object]): Questions' list
+        DIFFICULTY_LEVELS (list[str]): Difficulty levels' list
+
+    Returns:
+        object: A random question
+    """
+    categories = get_categories(QUESTIONS)
+    print(f"Available categories: {categories}")
+    user_category = valid_input(input("Choose category: "), categories)
+    user_difficulty = valid_input(input("Choose difficulty level: "), DIFFICULTY_LEVELS)
+    corrent_list = filter_list(user_category, user_difficulty, QUESTIONS)
+    selected_question = get_random_question(corrent_list)
+    return selected_question
 
 
 def check_winner(lst: list[object]) -> tuple[list[str], int]:

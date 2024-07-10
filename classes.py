@@ -95,25 +95,3 @@ class Question:
         for key, answer in self._answers.items():
             question_str += f"  {key}. {answer}\n"
         return question_str
-    
-
-
-
-
-    
-            
-
-
-
-
-    
-
-
-
-            
-        
-            
-         
-        
-        
-        

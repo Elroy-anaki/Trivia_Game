@@ -1,0 +1,124 @@
+{
+  "questions": [
+      {
+          "question": "What is the capital of Israel?",
+          "answers": {
+              "1": "Tel Aviv",
+              "2": "Haifa",
+              "3": "Jerusalem",
+              "4": "Beersheba"
+          },
+          "correct_answer": "3",
+          "category": "Geography",
+          "difficulty": "Easy"
+      },
+      {
+          "question": "What is the closest planet to the Sun?",
+          "answers": {
+              "1": "Venus",
+              "2": "Mars",
+              "3": "Mercury",
+              "4": "Jupiter"
+          },
+          "correct_answer": "3",
+          "category": "Science",
+          "difficulty": "Easy"
+      },
+      {
+          "question": "In which year did World War II start?",
+          "answers": {
+              "1": "1935",
+              "2": "1939",
+              "3": "1941",
+              "4": "1945"
+          },
+          "correct_answer": "2",
+          "category": "History",
+          "difficulty": "Medium"
+      },
+      {
+          "question": "What is the largest mammal in the world?",
+          "answers": {
+              "1": "Elephant",
+              "2": "Blue Whale",
+              "3": "Great White Shark",
+              "4": "Giraffe"
+          },
+          "correct_answer": "2",
+          "category": "Nature",
+          "difficulty": "Easy"
+      },
+      {
+          "question": "Who wrote 'Romeo and Juliet'?",
+          "answers": {
+              "1": "Charles Dickens",
+              "2": "J.K. Rowling",
+              "3": "William Shakespeare",
+              "4": "Mark Twain"
+          },
+          "correct_answer": "3",
+          "category": "Literature",
+          "difficulty": "Easy"
+      },
+      {
+          "question": "Which element has the chemical symbol 'O'?",
+          "answers": {
+              "1": "Osmium",
+              "2": "Oxygen",
+              "3": "Oganesson",
+              "4": "Osmium"
+          },
+          "correct_answer": "2",
+          "category": "Science",
+          "difficulty": "Easy"
+      },
+      {
+          "question": "What is the tallest mountain in the world?",
+          "answers": {
+              "1": "K2",
+              "2": "Kangchenjunga",
+              "3": "Mount Everest",
+              "4": "Lhotse"
+          },
+          "correct_answer": "3",
+          "category": "Geography",
+          "difficulty": "Medium"
+      },
+      {
+          "question": "Who was the first president of the United States?",
+          "answers": {
+              "1": "Thomas Jefferson",
+              "2": "John Adams",
+              "3": "George Washington",
+              "4": "James Madison"
+          },
+          "correct_answer": "3",
+          "category": "History",
+          "difficulty": "Easy"
+      },
+      {
+          "question": "What is the chemical formula for water?",
+          "answers": {
+              "1": "H2O",
+              "2": "CO2",
+              "3": "O2",
+              "4": "NaCl"
+          },
+          "correct_answer": "1",
+          "category": "Science",
+          "difficulty": "Easy"
+      },
+      {
+          "question": "In which year did the Titanic sink?",
+          "answers": {
+              "1": "1910",
+              "2": "1912",
+              "3": "1914",
+              "4": "1916"
+          },
+          "correct_answer": "2",
+          "category": "History",
+          "difficulty": "Medium"
+      }
+  ]
+}

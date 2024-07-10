@@ -1,86 +1,66 @@
 # Trivia Game
 
+## Overview
+The Trivia Game is a multiplayer quiz game where players take turns answering questions. Points are awarded for correct answers, and the game continues until all questions have been answered. The player with the most points at the end of the game wins.
+
 ## Knowledge Required
-
 In addition to the knowledge from previous classes, the following is required:
+- Classes
+- JSON files and parsing
+- Some understanding of Pydantic for extra features
+- Some understanding of exceptions
+- Possibly requests for extra features
 
-- **Classes**
-- **JSON files and parsing**
-- Some understanding of **pydantic** for the extra features
-- Some understanding of **exceptions**
-- Maybe **requests** for the extra features
+## Required Packages
+The necessary packages for this exercise include built-in ones and optional extras:
+- Required:
+  - argparse
+  - random
+  - json
+- Extra:
+  - pydantic
 
-## Packages Required
+## Core Functionality
 
-Most of the packages used for this exercise are built-in, and not all of them have to be used.
+1. The game selects a question unknown to both players and displays it with all possible answers (each answer is numbered).
+2. Players take turns answering the question:
+   - If the answer is correct, the player earns a point.
+   - If the answer is incorrect, the game notifies the player.
+3. The next player then takes their turn:
+   - If the previous player answered correctly, a new question is presented.
+   - If the previous player answered incorrectly, the same question is presented.
 
-### Required Packages
+## Full Requirements
 
-- argparse
-- random
-- json
+- The game runs from the command line using `argparse` or a similar library.
+- Parameters:
+  - Path to the file with the questions list.
+  - Number of players.
+- Game Flow:
+  - The computer selects a question from the file.
+  - Players take turns answering the question as described in the Core Functionality section.
+  - Correct answers earn points, and the next player gets a new question.
+  - Incorrect answers prompt the same question for the next player.
+  - The game ends when there are no more questions, and the winner and full scores are displayed.
 
-### Extra Packages
+- Questions:
+  - The order of questions should be different each game.
+  - The order of answers for each question should be different each game.
 
-- pydantic
+## Extra Features
 
-## Things to Go Over in the Lecture
+- Categories and Difficulty Levels:
+  - Each question has a category and difficulty level (easy, medium, hard).
+  - Players can choose a category and difficulty level before a new question is asked.
+  - The game selects a question from the chosen category and difficulty level.
+  - The game should ensure only available categories and difficulty levels can be chosen.
+  
+- Web API for Questions:
+  - Fetch questions from a web API instead of a file.
 
-- Classes and objects
-- Classes vs data structures (records)
-- Exceptions
-- Sets
-- JSON files
+## Usage
 
-### Extra
+To start the game, use the following command:
 
-- pydantic for data validation and parsing - extra
-
-## The Exercise
-
-It is recommended to first implement the core functionality of the game, then do the full requirements and then add the extra features.
-
-### Core Functionality
-
-The basic idea of the game is to have a trivia questions game. If we have 2 players playing, then the game would go like this:
-
-- The game selects a question that is unknown to both of the players, and then prints the question with all the possible answers (each answer with a number).
-- The players take turns answering the question.
-- If the answer is correct, the player gets a point.
-- If the answer is wrong, the game prints a message saying that the answer is wrong.
-- In either case, the turn goes to the next player. If the previous player answered correctly, the next player gets a new question; if not, they get the same question, with the same answers.
-
-So, if a question was not answered correctly, the next player gets the same question, with the same answers, and has a greater chance of answering correctly.
-
-### Full Requirements
-
-The game should be activated from the command line (using argparse, or something similar).
-
-#### Parameters
-
-- Path to the file with the question list
-- Number of players
-
-The computer selects a question from the file, and the players take turns answering the question as described in the Core Functionality section.
-
-- If the current player answers correctly, they get a point, and the next player gets a new question.
-- If the current player answers incorrectly, the next player gets the same question, with the same answers.
-- When there are no more questions, the game is finished, and should print the winner and the full scores.
-
-If the game is played twice with the same file:
-
-- The order of the questions should be different each time.
-- The order of the answers in each question should be different each time (each game, not each time the question is asked).
-
-### Extra Features
-
-- Allow categories and difficulty levels (and allow choosing).
-
-#### Implementation
-
-- Each question has a category (you decide them) and a difficulty level (easy, medium, hard).
-- On each turn, before a new question is asked, the player can choose a category and a difficulty level from the ones still available.
-- The game should then select a question from the selected category and difficulty level (if there is more than one question in that category and difficulty level, the program chooses one of them at random).
-- The computer should not allow choosing a category and difficulty level that are not available.
-
-- Get the questions from a web API instead of a file.
+```bash
+python trivia_game.py --questionlist path/to/questions.json --players int

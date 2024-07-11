@@ -23,9 +23,9 @@ def parser_Argument() -> argparse.Namespace:
     return result
 
 
-def get_from_json_file(file_path: str) -> list:
+def load_from_json_file_to_list(file_path: str) -> list[object]:
     """
-     Loads questions from a JSON file and adds them to the question bank.
+     Loads questions from a JSON file and adds them to the questions list.
         
     Args:
         file_path (str): The path to the JSON file containing the questions.

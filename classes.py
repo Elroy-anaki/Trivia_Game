@@ -32,7 +32,7 @@ class Player:
         return self._points
     
     
-    def check_answer(self, player_answer: str, correct_answer: str) -> bool:
+    def is_correct(self, player_answer: str, correct_answer: str) -> bool:
         """Checks the player's answer and gives him a point if he answered correctly
 
         Args:
@@ -43,7 +43,7 @@ class Player:
             bool: True if answered correctly, False otherwide.
         """
         if player_answer == correct_answer:
-            self.add_point()
+            
             return True
         else:
             return False

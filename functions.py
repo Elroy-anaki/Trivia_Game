@@ -2,20 +2,9 @@ import argparse
 import random
 import json
 import time
-from classes import *
+from Question import Question
 
-def parser_Argument() -> argparse.Namespace:
-    """
-    Parses command-line arguments for the Trivia Game.
-
-    The function uses the argparse module to define and parse command-line arguments
-    for the Trivia Game. It requires two arguments:
-    --file_path: A string representing the path to the JSON file with questions.
-    --num_of_players: An integer representing the number of players in the game.
-
-    Returns:
-        argparse.Namespace: An object containing the values of the parsed arguments.
-    """
+def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Trivia Game.")
     parser.add_argument('--file_path', type=str, required=True, help='Path to the JSON file with questions')
     parser.add_argument('--num_of_players', type=int, required=True, help='Number of players in the game')
@@ -24,44 +13,30 @@ def parser_Argument() -> argparse.Namespace:
 
 
 def load_from_json_file_to_list(file_path: str) -> list[object]:
-    """
-     Loads questions from a JSON file and adds them to the questions list.
-        
-    Args:
-        file_path (str): The path to the JSON file containing the questions.
-    """
     with open(file_path, 'r') as f:
-        data = json.load(f)
-    lst = []
-    for i in data["questions"]:
+        questions = json.load(f)
+    questions_list = []
+    for question in questions["questions"]:
         q = Question(
-            text=i["question"],
-            answers=i["answers"],
-            correct_answer=i["correct_answer"],
-            category=i["category"],
-            difficulty=i["difficulty"]
+            text=question["question"],
+            answers=question["answers"],
+            correct_answer=question["correct_answer"],
+            category=question["category"],
+            difficulty=question["difficulty"]
             
             )
-        lst.append(q)
-    return lst
+        questions_list.append(q)
+    return questions_list
 
 
-def get_categories(questions_list: list[object]) -> set[str]:
-    """Gets the Available categories from the questions' list
-
-    Args:
-        questions_list (list[object]): The questions' list
-
-    Returns:
-        set[str]: The Available categories
-    """
+def get_questions_categories(questions_list: list['Question']) -> set[str]:
     categories = []
     for q in questions_list:
         categories.append(q.category)
     return set(categories)
 
 
-def filter_list(category: str, difficulty: str, questions: list[object]) -> list[object]:
+def filter_list(questions: list['Question'], category: str, difficulty: str) -> list['Question']:
     """Filters the whole questions' list to the filtered list by user choice
 
     Args:
@@ -73,7 +48,7 @@ def filter_list(category: str, difficulty: str, questions: list[object]) -> list
         list[object]: The filtered list of questions
     """
     filtered_list = [q for q in questions if q.category == category and q.difficulty == difficulty]
-    while not filtered_list:
+    while len(filtered_list) == 0:
         print("There is no questions in these filters.")
         category = input("Choose category again: ")
         difficulty = input("Choose difficulty level again: ")
@@ -81,18 +56,8 @@ def filter_list(category: str, difficulty: str, questions: list[object]) -> list
     return filtered_list
 
 
-def get_random_question(lst) -> Question:
-    """
-    Returns a list of randomly selected questions from the question bank.
-    
-    Args:
-        list_of_questions (int): The list of questions the function choose from.
-        
-    Returns:
-        Question: A Question object.
-    """
-    
-    return random.choice(lst)
+def get_random_question(questions_list: list['Question']) -> Question:
+    return random.choice(questions_list)
     
 
 def valid_input(user_choose: str, options: list[str]) -> str:
@@ -111,7 +76,7 @@ def valid_input(user_choose: str, options: list[str]) -> str:
     return user_choose
 
 
-def select_filters(QUESTIONS: list[object], DIFFICULTY_LEVELS: list[str]) -> object:
+def select_filters(questions: list[object], difficulty_levels: list[str]) -> object:
     """Returns a random question during the game by user's choice
 
     Args:
@@ -121,17 +86,18 @@ def select_filters(QUESTIONS: list[object], DIFFICULTY_LEVELS: list[str]) -> obj
     Returns:
         object: A random question
     """
-    categories = get_categories(QUESTIONS)
+    categories = get_questions_categories(questions)
     print(f"Available categories: {categories}")
     user_category = valid_input(input("Choose category: "), categories)
-    user_difficulty = valid_input(input("Choose difficulty level: "), DIFFICULTY_LEVELS)
-    corrent_list = filter_list(user_category, user_difficulty, QUESTIONS)
+    user_difficulty = valid_input(input("Choose difficulty level: "), difficulty_levels)
+    corrent_list = filter_list( questions, user_category, user_difficulty)
     selected_question = get_random_question(corrent_list)
     return selected_question
 
 
-def check_winner(lst: list[object]) -> tuple[list[str], int]:
-    """Checks who won the game
+def get_winner(lst: list[object]) -> tuple[list[str], int]:
+    """
+    Returns the winner(s) and their points 
 
     Args:
         lst (list[object]): Players' list
@@ -144,13 +110,13 @@ def check_winner(lst: list[object]) -> tuple[list[str], int]:
     return winners, max_points
 
 
-def display_winners(PLAYERS: list[object]) -> None:
+def print_winners(PLAYERS: list[object]) -> None:
     """Display the winners to the screen
 
     Args:
         PLAYERS (list[object]): Players' list
     """
-    winners = check_winner(PLAYERS)
+    winners = get_winner(PLAYERS)
     time.sleep(3)
     if len(winners[0]) > 1:
         print(f"The winners are: {winners[0]}\nPoints: {winners[1]} ")
